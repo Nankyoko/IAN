@@ -7,15 +7,15 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'IAN'",
+            "name": "Debug executable 'ian'",
             "cargo": {
                 "args": [
                     "build",
-                    "--bin=IAN",
-                    "--package=IAN"
+                    "--bin=ian",
+                    "--package=ian"
                 ],
                 "filter": {
-                    "name": "IAN",
+                    "name": "ian",
                     "kind": "bin"
                 }
             },
@@ -25,16 +25,16 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug unit tests in executable 'IAN'",
+            "name": "Debug unit tests in executable 'ian'",
             "cargo": {
                 "args": [
                     "test",
                     "--no-run",
-                    "--bin=IAN",
-                    "--package=IAN"
+                    "--bin=ian",
+                    "--package=ian"
                 ],
                 "filter": {
-                    "name": "IAN",
+                    "name": "ian",
                     "kind": "bin"
                 }
             },

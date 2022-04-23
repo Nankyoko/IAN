@@ -36,7 +36,7 @@ pub fn insert_new_user(conn: &PoolConn, user: CreateUser) -> anyhow::Result<User
 
     let time = chrono::Utc::now();
     let hashed_pass = hash(user.password, DEFAULT_COST)
-        .or_else(|e| Err(anyhow::anyhow!("Unable to compute hash value for new password.")))?;
+        .or_else(|_| Err(anyhow::anyhow!("Unable to compute hash value for new password.")))?;
 
     let new_user = User {
         id: Uuid::new_v4(),
@@ -55,15 +55,15 @@ pub fn insert_new_user(conn: &PoolConn, user: CreateUser) -> anyhow::Result<User
     let commited_user: User = diesel::insert_into(users)
         .values(&new_user)
         .get_result(conn)
-        .or_else(|e| Err(anyhow::anyhow!("Could not insert user.")))?;
+        .or_else(|_| Err(anyhow::anyhow!("Could not insert user.")))?;
     
     diesel::insert_into(secure_user_info)
         .values(&new_secure_info)
         .execute(conn)
-        .or_else(|e| {
+        .or_else(|_| {
             diesel::delete(users.find(commited_user.id))
                 .execute(conn)
-                .or_else(|e| Err(anyhow::anyhow!("Unable to rollback user: {}", commited_user.username)))?;
+                .or_else(|_| Err(anyhow::anyhow!("Unable to rollback user: {}", commited_user.username)))?;
             
             Err(anyhow::anyhow!("Unable to create secure user info for user: {}", commited_user.username))
         })?;

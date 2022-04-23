@@ -86,7 +86,7 @@ async fn insert_user(pool: web::Data<DbPool>, json: web::Json<CreateUser>) -> Re
     }
 }
 
-async fn get_user(pool: web::Data<DbPool>, name: web::Path<(String)>) -> Result<HttpResponse, BlockingError> {
+async fn get_user(pool: web::Data<DbPool>, name: web::Path<String>) -> Result<HttpResponse, BlockingError> {
     let name = name.into_inner();
     let conn = pool.get().expect("Couldn't get db connection from pool.");
 
